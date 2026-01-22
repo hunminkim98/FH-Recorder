@@ -36,12 +36,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, currentView, 
         ${isOpen ? 'w-64 translate-x-0' : '-translate-x-full w-64 md:w-0 md:translate-x-0 md:border-r-0'}
       `}>
         <div className="p-6 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-white font-bold text-lg">
-              FH
-            </div>
-            <span className="font-bold text-xl tracking-tight text-slate-900 dark:text-white">Hockalytics</span>
-          </div>
+          <span className="font-bold text-xl tracking-tight text-slate-900 dark:text-white">Hockalytics</span>
           {/* Mobile Close Button */}
           <button 
             onClick={onClose}
