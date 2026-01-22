@@ -1,0 +1,27 @@
+# Dependencies
+node_modules
+
+# Local env files (Vercel uses its own env config)
+.env
+.env.local
+.env.development
+.env.production
+
+# IDE
+.vscode
+.idea
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# OMC files
+.omc
+
+# Git
+.git
+.gitignore
+
+# Documentation (optional, keep if needed)
+*.md
+!README.md
