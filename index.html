@@ -7,10 +7,11 @@
     
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&amp;family=Noto+Sans+KR:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
     
     <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,container-queries"></script>
     
     <!-- Tailwind Configuration -->
     <script>
@@ -27,9 +28,22 @@
                         "surface-dark": "#1E293B",
                         "border-light": "#E2E8F0",
                         "border-dark": "#334155",
+                        
+                        // Live Analysis Specific Colors
+                        "brand-navy": "#1e3a8a",
+                        "brand-purple": "#6366f1",
+                        "brand-light": "#e0e7ff",
+                        "surface-white": "#ffffff",
+                        "bg-page": "#f3f4f6", 
+                        "pitch-blue": "#004E9C",
+                        "pitch-border": "#00B4D8",
+                        "text-main": "#1f2937",
+                        "text-sub": "#6b7280",
                     },
                     fontFamily: {
                         sans: ["Inter", "sans-serif"],
+                        display: ["Lexend", "Noto Sans KR", "sans-serif"],
+                        body: ["Noto Sans KR", "sans-serif"],
                     },
                     borderRadius: {
                         DEFAULT: "0.75rem",
@@ -68,6 +82,15 @@
         }
         .dark ::-webkit-scrollbar-thumb {
             background: #475569;
+        }
+        
+        /* Hide Scrollbar Utility */
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
         }
     </style>
 <script type="importmap">

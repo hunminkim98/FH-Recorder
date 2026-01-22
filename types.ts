@@ -7,7 +7,9 @@ export interface MenuItem {
 
 export interface MetricItem {
   name: string;
+  symbol: string;
   definition: string;
+  definitionRowSpan?: number;
 }
 
 export interface MetricCategory {

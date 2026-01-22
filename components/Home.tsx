@@ -24,7 +24,10 @@ export const Home: React.FC<HomeProps> = ({ onNavigate }) => {
 
       {/* Quick Actions Grid */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-        <button className="flex flex-col items-center justify-center gap-3 p-6 bg-surface-light dark:bg-surface-dark rounded-xl border border-border-light dark:border-border-dark shadow-soft hover:shadow-card hover:-translate-y-0.5 transition-all duration-200 group">
+        <button 
+          onClick={() => onNavigate('analysis')}
+          className="flex flex-col items-center justify-center gap-3 p-6 bg-surface-light dark:bg-surface-dark rounded-xl border border-border-light dark:border-border-dark shadow-soft hover:shadow-card hover:-translate-y-0.5 transition-all duration-200 group"
+        >
           <div className="w-12 h-12 rounded-full bg-red-50 dark:bg-red-900/20 flex items-center justify-center text-red-600 dark:text-red-400 group-hover:bg-red-100 dark:group-hover:bg-red-900/30 transition-colors">
             <span className="material-symbols-outlined text-[24px]">videocam</span>
           </div>
