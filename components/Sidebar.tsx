@@ -4,9 +4,18 @@ import { MENU_ITEMS } from '../constants';
 interface SidebarProps {
   isOpen: boolean;
   onClose: () => void;
+  currentView: string;
+  onNavigate: (viewId: string) => void;
 }
 
-export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
+export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, currentView, onNavigate }) => {
+  const handleNavigation = (id: string) => {
+    onNavigate(id);
+    if (window.innerWidth < 768) {
+      onClose();
+    }
+  };
+
   return (
     <>
       {/* Mobile Overlay */}
@@ -37,56 +46,55 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
             <span className="material-symbols-outlined absolute left-3 top-2.5 text-slate-400 text-[20px]">search</span>
             <input 
               className="w-full pl-10 pr-4 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 dark:text-slate-200 placeholder-slate-400" 
-              placeholder="지표 검색..." 
+              placeholder="팀, 선수 검색..." 
               type="text"
             />
           </div>
         </div>
 
         <nav className="flex-1 overflow-y-auto px-2 space-y-1">
-          {MENU_ITEMS.map((item) => (
-            <a 
-              key={item.label}
-              href="#" 
-              className={`
-                flex items-center gap-3 px-4 py-2.5 rounded-lg group transition-all duration-200
-                ${item.active 
-                  ? 'text-primary dark:text-primary-light bg-primary/5 dark:bg-primary/10' 
-                  : 'text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary-light hover:bg-slate-50 dark:hover:bg-slate-800/50'
-                }
-              `}
-            >
-              <span className={`material-symbols-outlined text-[20px] ${!item.active && 'group-hover:text-primary dark:group-hover:text-primary-light'}`}>
-                {item.icon}
-              </span>
-              <span className="font-medium text-sm">{item.label}</span>
-              {item.count && (
-                <span className={`
-                  ml-auto text-xs font-semibold px-2 py-0.5 rounded-full
-                  ${item.active 
-                    ? 'bg-primary/10 dark:bg-primary/20 text-primary dark:text-primary-light'
-                    : 'bg-slate-100 dark:bg-slate-800 text-slate-400'
+          {MENU_ITEMS.map((item) => {
+            const isActive = item.id === currentView;
+            return (
+              <button 
+                key={item.id}
+                onClick={() => handleNavigation(item.id)}
+                className={`
+                  w-full flex items-center gap-3 px-4 py-2.5 rounded-lg group transition-all duration-200
+                  ${isActive 
+                    ? 'text-primary dark:text-primary-light bg-primary/5 dark:bg-primary/10' 
+                    : 'text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary-light hover:bg-slate-50 dark:hover:bg-slate-800/50'
                   }
-                `}>
-                  {item.count}
+                `}
+              >
+                <span className={`material-symbols-outlined text-[20px] ${!isActive && 'group-hover:text-primary dark:group-hover:text-primary-light'}`}>
+                  {item.icon}
                 </span>
-              )}
-            </a>
-          ))}
+                <span className="font-medium text-sm">{item.label}</span>
+                {item.count && (
+                  <span className={`
+                    ml-auto text-xs font-semibold px-2 py-0.5 rounded-full
+                    ${isActive 
+                      ? 'bg-primary/10 dark:bg-primary/20 text-primary dark:text-primary-light'
+                      : 'bg-slate-100 dark:bg-slate-800 text-slate-400'
+                    }
+                  `}>
+                    {item.count}
+                  </span>
+                )}
+              </button>
+            );
+          })}
         </nav>
 
         <div className="p-4">
-          <div className="bg-slate-50 dark:bg-slate-800/50 rounded-xl p-4 border border-slate-100 dark:border-slate-700/50 relative overflow-hidden">
+          <div className="bg-gradient-to-br from-primary to-purple-800 rounded-xl p-4 text-white relative overflow-hidden">
             <div className="relative z-10">
-              <div className="w-8 h-8 bg-slate-200 dark:bg-slate-700 rounded-full flex items-center justify-center mb-3">
-                <span className="material-symbols-outlined text-slate-500 text-sm">info</span>
-              </div>
-              <h4 className="text-sm font-semibold mb-1 dark:text-slate-200">새로운 지표 추가</h4>
-              <p className="text-xs text-slate-500 dark:text-slate-400 mb-3">'서클 침투'에 대한 정의가 업데이트되었습니다.</p>
-              <button className="text-xs font-medium text-primary dark:text-primary-light hover:underline">
-                변경 내역 보기
-              </button>
+              <h4 className="text-sm font-bold mb-1">프로 플랜</h4>
+              <p className="text-xs text-white/80 mb-3">구독 갱신까지 3일 남았습니다.</p>
+              <button className="text-xs bg-white/20 hover:bg-white/30 transition px-2 py-1 rounded">관리</button>
             </div>
+            <div className="absolute -bottom-4 -right-4 w-20 h-20 bg-white/10 rounded-full blur-xl"></div>
           </div>
         </div>
       </aside>

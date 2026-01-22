@@ -1,11 +1,11 @@
 import { MenuItem, MetricCategory, StatCardProps, ConceptCardProps } from './types';
 
 export const MENU_ITEMS: MenuItem[] = [
-  { icon: 'home', label: '홈' },
-  { icon: 'menu_book', label: '지표 정의', count: 12, active: true },
-  { icon: 'analytics', label: '분석' },
-  { icon: 'groups', label: '팀', count: 3 },
-  { icon: 'settings', label: '설정' },
+  { id: 'home', icon: 'home', label: '홈' },
+  { id: 'definitions', icon: 'menu_book', label: '용어 정의', count: 12 },
+  { id: 'analysis', icon: 'analytics', label: '분석' },
+  { id: 'team', icon: 'groups', label: '팀', count: 3 },
+  { id: 'settings', icon: 'settings', label: '설정' },
 ];
 
 export const METRIC_DEFINITIONS: MetricCategory[] = [

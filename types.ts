@@ -1,8 +1,8 @@
 export interface MenuItem {
+  id: string;
   icon: string;
   label: string;
   count?: number;
-  active?: boolean;
 }
 
 export interface MetricItem {
