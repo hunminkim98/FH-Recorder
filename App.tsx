@@ -44,12 +44,7 @@ const App: React.FC = () => {
         {/* Mobile Header - Show only if NOT in analysis mode */}
         {!isAnalysisMode && (
           <div className="md:hidden flex items-center justify-between p-4 bg-surface-light dark:bg-surface-dark border-b border-border-light dark:border-border-dark sticky top-0 z-20">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-white font-bold text-lg">
-                FH
-              </div>
-              <span className="font-bold text-lg text-slate-900 dark:text-white">Hockalytics</span>
-            </div>
+            <span className="font-bold text-lg text-slate-900 dark:text-white">Hockalytics</span>
             <button 
               className="text-slate-500 dark:text-slate-400 p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-800"
               onClick={() => setSidebarOpen(!sidebarOpen)}

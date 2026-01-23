@@ -18,32 +18,33 @@ export const Home: React.FC<HomeProps> = ({ onNavigate }) => {
       <div className="mb-8">
         <h1 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-2">Welcome back, Coach</h1>
         <p className="text-slate-500 dark:text-slate-400 max-w-2xl text-base md:text-lg">
-          팀의 이번 주 활동 요약입니다. <span className="font-semibold text-slate-700 dark:text-slate-300">2건의 예정된 경기</span>와 검토 가능한 새로운 분석 리포트가 있습니다.
+          팀의 이번 주 활동 요약입니다.<br />
+          <span className="font-semibold text-slate-700 dark:text-slate-300">2건의 예정된 경기</span>와 검토 가능한 새로운 분석 리포트가 있습니다.
         </p>
       </div>
 
       {/* Quick Actions Grid */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-        <button 
+        <button
           onClick={() => onNavigate('analysis')}
           className="flex flex-col items-center justify-center gap-3 p-6 bg-surface-light dark:bg-surface-dark rounded-xl border border-border-light dark:border-border-dark shadow-soft hover:shadow-card hover:-translate-y-0.5 transition-all duration-200 group"
         >
           <div className="w-12 h-12 rounded-full bg-red-50 dark:bg-red-900/20 flex items-center justify-center text-red-600 dark:text-red-400 group-hover:bg-red-100 dark:group-hover:bg-red-900/30 transition-colors">
             <span className="material-symbols-outlined text-[24px]">videocam</span>
           </div>
-          <span className="text-sm font-semibold text-slate-700 dark:text-slate-200 text-center">실시간 기록<br/>시작</span>
+          <span className="text-sm font-semibold text-slate-700 dark:text-slate-200 text-center">실시간 기록<br />시작</span>
         </button>
         <button className="flex flex-col items-center justify-center gap-3 p-6 bg-surface-light dark:bg-surface-dark rounded-xl border border-border-light dark:border-border-dark shadow-soft hover:shadow-card hover:-translate-y-0.5 transition-all duration-200 group">
           <div className="w-12 h-12 rounded-full bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center text-blue-600 dark:text-blue-400 group-hover:bg-blue-100 dark:group-hover:bg-blue-900/30 transition-colors">
             <span className="material-symbols-outlined text-[24px]">upload_file</span>
           </div>
-          <span className="text-sm font-semibold text-slate-700 dark:text-slate-200 text-center">경기 영상<br/>업로드</span>
+          <span className="text-sm font-semibold text-slate-700 dark:text-slate-200 text-center">경기 영상<br />업로드</span>
         </button>
         <button className="flex flex-col items-center justify-center gap-3 p-6 bg-surface-light dark:bg-surface-dark rounded-xl border border-border-light dark:border-border-dark shadow-soft hover:shadow-card hover:-translate-y-0.5 transition-all duration-200 group">
           <div className="w-12 h-12 rounded-full bg-primary/10 dark:bg-primary/20 flex items-center justify-center text-primary dark:text-primary-light group-hover:bg-primary/20 dark:group-hover:bg-primary/30 transition-colors">
             <span className="material-symbols-outlined text-[24px]">monitoring</span>
           </div>
-          <span className="text-sm font-semibold text-slate-700 dark:text-slate-200 text-center">분석 리포트<br/>보기</span>
+          <span className="text-sm font-semibold text-slate-700 dark:text-slate-200 text-center">분석 리포트<br />보기</span>
         </button>
         <button className="flex flex-col items-center justify-center gap-3 p-6 bg-surface-light dark:bg-surface-dark rounded-xl border border-border-light dark:border-border-dark shadow-soft hover:shadow-card hover:-translate-y-0.5 transition-all duration-200 group">
           <div className="w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center text-slate-600 dark:text-slate-300 group-hover:bg-slate-200 dark:group-hover:bg-slate-600 transition-colors">
@@ -144,11 +145,11 @@ export const Home: React.FC<HomeProps> = ({ onNavigate }) => {
               <p className="text-sm text-slate-600 dark:text-slate-400 mb-4 leading-relaxed">
                 '유효 슈팅' 및 '서클 진입'과 같은 지표 정의를 팀 전체가 공유하도록 하세요.
               </p>
-              <button 
+              <button
                 onClick={() => onNavigate('definitions')}
                 className="inline-flex items-center text-sm font-semibold text-primary dark:text-primary-light hover:text-primary-light dark:hover:text-white transition-colors group"
               >
-                지식 베이스 탐색
+                용어 정의 보러가기
                 <span className="material-symbols-outlined text-[16px] ml-1 group-hover:translate-x-1 transition-transform">arrow_forward</span>
               </button>
             </div>

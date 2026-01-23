@@ -17,12 +17,6 @@ export interface MetricCategory {
   items: MetricItem[];
 }
 
-export interface StatCardProps {
-  category: string;
-  title: string;
-  subtitle: string;
-}
-
 export interface ConceptCardProps {
   icon: string;
   iconColorClass: string;
