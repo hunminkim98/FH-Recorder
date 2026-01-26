@@ -7,7 +7,15 @@
       "Bash(git commit:*)",
       "Bash(git push)",
       "Bash(npm install:*)",
-      "Bash(npm uninstall:*)"
+      "Bash(npm uninstall:*)",
+      "Bash(md \"c:\\\\Users\\\\BB1\\\\Desktop\\\\FH-Recorder\\\\.omc\\\\plans\")",
+      "Bash(ls:*)",
+      "Bash(dir /b \"c:\\\\Users\\\\BB1\\\\Desktop\\\\FH-Recorder\\\\services\")",
+      "Bash(npx tsc:*)",
+      "Bash(node -e:*)",
+      "Bash(if not exist \"c:\\\\Users\\\\BB1\\\\Desktop\\\\FH-Recorder\\\\.omc\\\\plans\" mkdir \"c:\\\\Users\\\\BB1\\\\Desktop\\\\FH-Recorder\\\\.omc\\\\plans\")",
+      "Bash(npm run dev:*)",
+      "Bash(npx todo:*)"
     ]
   }
 }

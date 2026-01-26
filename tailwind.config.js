@@ -26,6 +26,8 @@ export default {
         "pitch-border": "#00B4D8",
         "text-main": "#1f2937",
         "text-sub": "#6b7280",
+        "team-home": "#2563eb",
+        "team-away": "#dc2626",
       },
       fontFamily: {
         sans: ["Inter", "sans-serif"],

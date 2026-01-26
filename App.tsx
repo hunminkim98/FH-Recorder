@@ -3,16 +3,19 @@ import { Sidebar } from './components/Sidebar';
 import { Home } from './components/Home';
 import { OperationalDefinitions } from './components/OperationalDefinitions';
 import { LiveAnalysis } from './components/LiveAnalysis';
+import { getDefaultDashboardData } from './services/matchData';
+import { DashboardData } from './types';
 
 const App: React.FC = () => {
   // Initialize based on screen width (Desktop: open, Mobile: closed)
   const [sidebarOpen, setSidebarOpen] = useState(() => typeof window !== 'undefined' ? window.innerWidth >= 768 : false);
   const [currentView, setCurrentView] = useState('home');
+  const [dashboardData, setDashboardData] = useState<DashboardData>(getDefaultDashboardData());
 
   const renderContent = () => {
     switch (currentView) {
       case 'home':
-        return <Home onNavigate={setCurrentView} />;
+        return <Home onNavigate={setCurrentView} dashboardData={dashboardData} />;
       case 'definitions':
         return <OperationalDefinitions />;
       case 'analysis':

@@ -1,10 +1,12 @@
 import React from 'react';
+import { DashboardData } from '../types';
 
 interface HomeProps {
   onNavigate: (viewId: string) => void;
+  dashboardData: DashboardData;
 }
 
-export const Home: React.FC<HomeProps> = ({ onNavigate }) => {
+export const Home: React.FC<HomeProps> = ({ onNavigate, dashboardData }) => {
   return (
     <div className="max-w-5xl mx-auto pb-20 md:pb-0">
       {/* Breadcrumbs */}
@@ -19,7 +21,7 @@ export const Home: React.FC<HomeProps> = ({ onNavigate }) => {
         <h1 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-2">Welcome back, Coach</h1>
         <p className="text-slate-500 dark:text-slate-400 max-w-2xl text-base md:text-lg">
           팀의 이번 주 활동 요약입니다.<br />
-          <span className="font-semibold text-slate-700 dark:text-slate-300">2건의 예정된 경기</span>와 검토 가능한 새로운 분석 리포트가 있습니다.
+          <span className="font-semibold text-slate-700 dark:text-slate-300">{dashboardData.upcomingMatchCount}건의 예정된 경기</span>와 검토 가능한 새로운 분석 리포트가 있습니다.
         </p>
       </div>
 
@@ -63,72 +65,50 @@ export const Home: React.FC<HomeProps> = ({ onNavigate }) => {
             <a href="#" className="text-sm font-medium text-primary dark:text-primary-light hover:underline">전체 보기</a>
           </div>
           <div className="space-y-4">
-            {/* Match Card 1 */}
-            <div className="bg-surface-light dark:bg-surface-dark rounded-xl p-4 md:p-5 border border-border-light dark:border-border-dark shadow-sm hover:shadow-md transition-shadow">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                <div className="flex items-center gap-4 flex-1">
-                  <div className="flex flex-col items-center gap-1 min-w-[60px]">
-                    <span className="text-xs font-semibold text-slate-400 uppercase">10월 12일</span>
-                    <span className="text-xs text-slate-500 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded">종료</span>
-                  </div>
-                  <div className="flex-1 border-l border-slate-100 dark:border-slate-700 pl-4">
-                    <div className="flex items-center justify-between mb-2">
-                      <div className="flex items-center gap-2">
-                        <span className="font-bold text-slate-900 dark:text-white">Lions HC</span>
-                      </div>
-                      <span className="font-bold text-slate-900 dark:text-white text-lg">3</span>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <span className="font-medium text-slate-500 dark:text-slate-400">Eagles United</span>
-                      </div>
-                      <span className="font-medium text-slate-500 dark:text-slate-400 text-lg">1</span>
-                    </div>
-                  </div>
-                </div>
-                <div className="flex sm:flex-col gap-2 sm:border-l border-slate-100 dark:border-slate-700 sm:pl-4 justify-end">
-                  <button className="flex-1 sm:flex-none flex items-center justify-center gap-1.5 px-3 py-1.5 text-xs font-medium text-primary bg-primary/5 hover:bg-primary/10 rounded-lg transition-colors">
-                    <span className="material-symbols-outlined text-[16px]">play_circle</span> 다시보기
-                  </button>
-                  <button className="flex-1 sm:flex-none flex items-center justify-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-700 hover:bg-slate-100 dark:hover:bg-slate-600 rounded-lg transition-colors">
-                    <span className="material-symbols-outlined text-[16px]">bar_chart</span> 통계
-                  </button>
-                </div>
+            {dashboardData.recentMatches.length === 0 ? (
+              <div className="bg-surface-light dark:bg-surface-dark rounded-xl p-8 border border-border-light dark:border-border-dark text-center">
+                <p className="text-slate-500 dark:text-slate-400">최근 경기 기록이 없습니다</p>
               </div>
-            </div>
-            {/* Match Card 2 */}
-            <div className="bg-surface-light dark:bg-surface-dark rounded-xl p-4 md:p-5 border border-border-light dark:border-border-dark shadow-sm hover:shadow-md transition-shadow">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                <div className="flex items-center gap-4 flex-1">
-                  <div className="flex flex-col items-center gap-1 min-w-[60px]">
-                    <span className="text-xs font-semibold text-slate-400 uppercase">10월 08일</span>
-                    <span className="text-xs text-slate-500 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded">종료</span>
-                  </div>
-                  <div className="flex-1 border-l border-slate-100 dark:border-slate-700 pl-4">
-                    <div className="flex items-center justify-between mb-2">
-                      <div className="flex items-center gap-2">
-                        <span className="font-bold text-slate-900 dark:text-white">Lions HC</span>
+            ) : (
+              dashboardData.recentMatches.map((match) => {
+                const statusLabel = match.status === 'completed' ? '종료' : match.status === 'live' ? '진행 중' : '예정';
+
+                return (
+                  <div key={match.id} className="bg-surface-light dark:bg-surface-dark rounded-xl p-4 md:p-5 border border-border-light dark:border-border-dark shadow-sm hover:shadow-md transition-shadow">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                      <div className="flex items-center gap-4 flex-1">
+                        <div className="flex flex-col items-center gap-1 min-w-[60px]">
+                          <span className="text-xs font-semibold text-slate-400 uppercase">{match.displayDate}</span>
+                          <span className="text-xs text-slate-500 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded">{statusLabel}</span>
+                        </div>
+                        <div className="flex-1 border-l border-slate-100 dark:border-slate-700 pl-4">
+                          <div className="flex items-center justify-between mb-2">
+                            <div className="flex items-center gap-2">
+                              <span className="font-bold text-slate-900 dark:text-white">{match.homeTeam.name}</span>
+                            </div>
+                            <span className="font-bold text-slate-900 dark:text-white text-lg">{match.homeScore ?? '-'}</span>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-2">
+                              <span className="font-medium text-slate-500 dark:text-slate-400">{match.awayTeam.name}</span>
+                            </div>
+                            <span className="font-medium text-slate-500 dark:text-slate-400 text-lg">{match.awayScore ?? '-'}</span>
+                          </div>
+                        </div>
                       </div>
-                      <span className="font-bold text-slate-900 dark:text-white text-lg">2</span>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <span className="font-medium text-slate-500 dark:text-slate-400">Panthers City</span>
+                      <div className="flex sm:flex-col gap-2 sm:border-l border-slate-100 dark:border-slate-700 sm:pl-4 justify-end">
+                        <button className="flex-1 sm:flex-none flex items-center justify-center gap-1.5 px-3 py-1.5 text-xs font-medium text-primary bg-primary/5 hover:bg-primary/10 rounded-lg transition-colors">
+                          <span className="material-symbols-outlined text-[16px]">play_circle</span> 다시보기
+                        </button>
+                        <button className="flex-1 sm:flex-none flex items-center justify-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-700 hover:bg-slate-100 dark:hover:bg-slate-600 rounded-lg transition-colors">
+                          <span className="material-symbols-outlined text-[16px]">bar_chart</span> 통계
+                        </button>
                       </div>
-                      <span className="font-medium text-slate-500 dark:text-slate-400 text-lg">2</span>
                     </div>
                   </div>
-                </div>
-                <div className="flex sm:flex-col gap-2 sm:border-l border-slate-100 dark:border-slate-700 sm:pl-4 justify-end">
-                  <button className="flex-1 sm:flex-none flex items-center justify-center gap-1.5 px-3 py-1.5 text-xs font-medium text-primary bg-primary/5 hover:bg-primary/10 rounded-lg transition-colors">
-                    <span className="material-symbols-outlined text-[16px]">play_circle</span> 다시보기
-                  </button>
-                  <button className="flex-1 sm:flex-none flex items-center justify-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-700 hover:bg-slate-100 dark:hover:bg-slate-600 rounded-lg transition-colors">
-                    <span className="material-symbols-outlined text-[16px]">bar_chart</span> 통계
-                  </button>
-                </div>
-              </div>
-            </div>
+                );
+              })
+            )}
           </div>
         </div>
 
@@ -162,28 +142,28 @@ export const Home: React.FC<HomeProps> = ({ onNavigate }) => {
               <div>
                 <div className="flex justify-between text-sm mb-1">
                   <span className="text-slate-500 dark:text-slate-400">승률</span>
-                  <span className="font-bold text-slate-900 dark:text-white">75%</span>
+                  <span className="font-bold text-slate-900 dark:text-white">{dashboardData.seasonStats.winRate}%</span>
                 </div>
                 <div className="h-2 w-full bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
-                  <div className="h-full bg-green-500 w-3/4 rounded-full"></div>
+                  <div className="h-full bg-green-500 rounded-full" style={{ width: `${dashboardData.seasonStats.winRate}%` }}></div>
                 </div>
               </div>
               <div>
                 <div className="flex justify-between text-sm mb-1">
                   <span className="text-slate-500 dark:text-slate-400">경기당 득점</span>
-                  <span className="font-bold text-slate-900 dark:text-white">2.4</span>
+                  <span className="font-bold text-slate-900 dark:text-white">{dashboardData.seasonStats.goalsPerMatch.toFixed(1)}</span>
                 </div>
                 <div className="h-2 w-full bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
-                  <div className="h-full bg-primary w-[60%] rounded-full"></div>
+                  <div className="h-full bg-primary rounded-full" style={{ width: `${(dashboardData.seasonStats.goalsPerMatch / 4) * 100}%` }}></div>
                 </div>
               </div>
               <div>
                 <div className="flex justify-between text-sm mb-1">
                   <span className="text-slate-500 dark:text-slate-400">서클 진입</span>
-                  <span className="font-bold text-slate-900 dark:text-white">평균 18</span>
+                  <span className="font-bold text-slate-900 dark:text-white">평균 {dashboardData.seasonStats.circleEntries}</span>
                 </div>
                 <div className="h-2 w-full bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
-                  <div className="h-full bg-blue-500 w-[55%] rounded-full"></div>
+                  <div className="h-full bg-blue-500 rounded-full" style={{ width: `${(dashboardData.seasonStats.circleEntries / 30) * 100}%` }}></div>
                 </div>
               </div>
             </div>
