@@ -5,6 +5,7 @@ export { MetricGrid } from './MetricGrid';
 export { OneClickMetricGrid } from './OneClickMetricGrid';
 export { ActionBar } from './ActionBar';
 export { default as SplitTeamMetricPanel } from './SplitTeamMetricPanel';
+export { FieldPlayerSelector } from './FieldPlayerSelector';
 export { default as SplitViewHeader } from './SplitViewHeader';
 export { SplitViewActionBar } from './SplitViewActionBar';
 export { PlayerSelector } from './PlayerSelector';

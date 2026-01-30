@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { METRIC_DEFINITIONS } from '../../constants';
-import { PlayerSelector } from './PlayerSelector';
+import { FieldPlayerSelector } from './FieldPlayerSelector';
 import type { Player } from '../../services/playerService';
 
 interface SplitTeamMetricPanelProps {
@@ -107,6 +107,7 @@ export default function SplitTeamMetricPanel({
 }: SplitTeamMetricPanelProps) {
   const isHome = team === 'home';
   const selectedPlayer = players.find(p => p.id === selectedPlayerId);
+  const [isFieldExpanded, setIsFieldExpanded] = useState(false);
 
   const getEventCount = (categoryIndex: number, itemIndex: number): number => {
     return eventCounts[`${categoryIndex}-${itemIndex}`] || 0;
@@ -221,24 +222,23 @@ export default function SplitTeamMetricPanel({
         {teamName}
       </div>
 
-      {/* Player Selector */}
-      {players.length > 0 && (
-        <div className={`bg-white rounded-xl p-2 shadow-sm ${
-          isHome ? 'border-l-4 border-l-team-home' : 'border-r-4 border-r-team-away'
-        }`}>
-          <div className="text-[9px] font-bold uppercase tracking-tight mb-1.5 px-1 text-slate-600 flex items-center gap-1">
-            <span className="material-symbols-outlined text-[12px]">person</span>
-            선수 선택
-          </div>
-          <PlayerSelector
-            players={players}
-            selectedPlayerId={selectedPlayerId}
-            onSelectPlayer={onSelectPlayer}
-            team={team}
-            compact
-          />
+      {/* Field Player Selector */}
+      <div className={`bg-white rounded-xl p-2 shadow-sm ${
+        isHome ? 'border-l-4 border-l-team-home' : 'border-r-4 border-r-team-away'
+      }`}>
+        <div className="text-[9px] font-bold uppercase tracking-tight mb-1.5 px-1 text-slate-600 flex items-center gap-1">
+          <span className="material-symbols-outlined text-[12px]">sports_soccer</span>
+          선수 선택
         </div>
-      )}
+        <FieldPlayerSelector
+          players={players}
+          selectedPlayerId={selectedPlayerId}
+          onSelectPlayer={onSelectPlayer}
+          team={team}
+          isExpanded={isFieldExpanded}
+          onToggleExpand={() => setIsFieldExpanded(!isFieldExpanded)}
+        />
+      </div>
 
       {/* Category cards */}
       {CATEGORY_CONFIG.map(config => renderCategoryCard(config))}
