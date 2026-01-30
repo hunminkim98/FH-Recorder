@@ -1,5 +1,4 @@
 import React from 'react';
-import { RecordedEvent } from '../../types';
 
 interface SplitViewActionBarProps {
   lastEvent?: {
@@ -7,6 +6,8 @@ interface SplitViewActionBarProps {
     teamName: string;
     matchTime: string;
     itemName: string;
+    playerNumber?: number;
+    playerName?: string;
   };
   onUndo: () => void;
   isRunning: boolean;
@@ -56,6 +57,11 @@ export function SplitViewActionBar({
               >
                 {lastEvent.teamName}
               </div>
+              {lastEvent.playerNumber !== undefined && (
+                <span className="text-[10px] font-bold text-amber-400 bg-amber-400/20 px-1.5 py-0.5 rounded">
+                  #{lastEvent.playerNumber}
+                </span>
+              )}
               <span className="text-[10px] text-slate-400 tabular-nums">
                 {lastEvent.matchTime}
               </span>

@@ -7,3 +7,4 @@ export { ActionBar } from './ActionBar';
 export { default as SplitTeamMetricPanel } from './SplitTeamMetricPanel';
 export { default as SplitViewHeader } from './SplitViewHeader';
 export { SplitViewActionBar } from './SplitViewActionBar';
+export { PlayerSelector } from './PlayerSelector';

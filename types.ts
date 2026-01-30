@@ -73,7 +73,57 @@ export interface RecordedEvent {
   itemName: string; // e.g., "유효 슈팅"
   itemSymbol: string; // e.g., "SoT"
   team: 'home' | 'away';
-  playerId?: string; // Future use
+  playerId?: string; // Player UUID from database
+  playerNumber?: number; // Jersey number for quick display
+  playerName?: string; // Cached player name
+}
+
+// Database entity types
+export interface DbPlayer {
+  id: string;
+  team_id: string;
+  jersey_number: number;
+  name: string;
+  position?: 'GK' | 'DF' | 'MF' | 'FW';
+  is_active: boolean;
+  created_at?: string;
+  updated_at?: string;
+}
+
+export interface DbTeam {
+  id: string;
+  name: string;
+  short_name?: string;
+  logo_url?: string;
+  created_at?: string;
+  updated_at?: string;
+}
+
+export interface DbMatch {
+  id: string;
+  home_team_id: string;
+  away_team_id: string;
+  match_date: string;
+  status: 'scheduled' | 'live' | 'completed';
+  home_score: number;
+  away_score: number;
+  created_at?: string;
+  updated_at?: string;
+}
+
+export interface DbMatchEvent {
+  id: string;
+  match_id: string;
+  player_id?: string;
+  team: 'home' | 'away';
+  quarter: number;
+  match_time_seconds: number;
+  category_index: number;
+  category_name: string;
+  item_index: number;
+  item_name: string;
+  item_symbol: string;
+  recorded_at?: string;
 }
 
 export interface MatchRecordingState {

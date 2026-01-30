@@ -1,9 +1,14 @@
 import React from 'react';
 import { METRIC_DEFINITIONS } from '../../constants';
+import { PlayerSelector } from './PlayerSelector';
+import type { Player } from '../../services/playerService';
 
 interface SplitTeamMetricPanelProps {
   team: 'home' | 'away';
   teamName: string;
+  players: Player[];
+  selectedPlayerId: string | null;
+  onSelectPlayer: (player: Player | null) => void;
   onRecord: (categoryIndex: number, itemIndex: number) => void;
   eventCounts: Record<string, number>;
 }
@@ -94,10 +99,14 @@ const CATEGORY_CONFIG = [
 export default function SplitTeamMetricPanel({
   team,
   teamName,
+  players,
+  selectedPlayerId,
+  onSelectPlayer,
   onRecord,
   eventCounts,
 }: SplitTeamMetricPanelProps) {
   const isHome = team === 'home';
+  const selectedPlayer = players.find(p => p.id === selectedPlayerId);
 
   const getEventCount = (categoryIndex: number, itemIndex: number): number => {
     return eventCounts[`${categoryIndex}-${itemIndex}`] || 0;
@@ -211,6 +220,25 @@ export default function SplitTeamMetricPanel({
         </span>
         {teamName}
       </div>
+
+      {/* Player Selector */}
+      {players.length > 0 && (
+        <div className={`bg-white rounded-xl p-2 shadow-sm ${
+          isHome ? 'border-l-4 border-l-team-home' : 'border-r-4 border-r-team-away'
+        }`}>
+          <div className="text-[9px] font-bold uppercase tracking-tight mb-1.5 px-1 text-slate-600 flex items-center gap-1">
+            <span className="material-symbols-outlined text-[12px]">person</span>
+            선수 선택
+          </div>
+          <PlayerSelector
+            players={players}
+            selectedPlayerId={selectedPlayerId}
+            onSelectPlayer={onSelectPlayer}
+            team={team}
+            compact
+          />
+        </div>
+      )}
 
       {/* Category cards */}
       {CATEGORY_CONFIG.map(config => renderCategoryCard(config))}

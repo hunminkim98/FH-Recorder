@@ -102,8 +102,20 @@ export function useMatchRecording(options: UseMatchRecordingOptions = {}) {
     return newEvent;
   }, [state.matchTimeSeconds, state.currentQuarter, selectedTeam, formatTime, extractAbbreviation]);
 
+  // Player info for event recording
+  interface PlayerInfo {
+    playerId: string;
+    playerNumber: number;
+    playerName: string;
+  }
+
   // Record a metric event for a specific team (overrides selectedTeam)
-  const recordEventForTeam = useCallback((categoryIndex: number, itemIndex: number, team: 'home' | 'away') => {
+  const recordEventForTeam = useCallback((
+    categoryIndex: number, 
+    itemIndex: number, 
+    team: 'home' | 'away',
+    playerInfo?: PlayerInfo
+  ) => {
     // Bounds checking
     if (categoryIndex < 0 || categoryIndex >= METRIC_DEFINITIONS.length) {
       console.error(`Invalid categoryIndex: ${categoryIndex}`);
@@ -130,6 +142,10 @@ export function useMatchRecording(options: UseMatchRecordingOptions = {}) {
       itemName: item.name,
       itemSymbol: extractAbbreviation(item.symbol),
       team,
+      // Include player info if provided
+      playerId: playerInfo?.playerId,
+      playerNumber: playerInfo?.playerNumber,
+      playerName: playerInfo?.playerName,
     };
 
     // Combined setState to avoid race condition - update events and score in single call

@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { useMatchRecording } from '../hooks/useMatchRecording';
+import { usePlayers } from '../hooks/usePlayers';
 import { METRIC_DEFINITIONS } from '../constants';
 import {
   RecordingHeader,
@@ -10,12 +11,19 @@ import {
   SplitViewActionBar,
 } from './recording';
 import { EventHistory } from './EventHistory';
+import type { Player } from '../services/playerService';
 
 interface LiveAnalysisProps {
   onNavigate: (viewId: string) => void;
+  homeTeamId?: string;
+  awayTeamId?: string;
 }
 
-export const LiveAnalysis: React.FC<LiveAnalysisProps> = ({ onNavigate }) => {
+export const LiveAnalysis: React.FC<LiveAnalysisProps> = ({ 
+  onNavigate,
+  homeTeamId,
+  awayTeamId,
+}) => {
   const {
     state,
     selectedTeam,
@@ -30,6 +38,54 @@ export const LiveAnalysis: React.FC<LiveAnalysisProps> = ({ onNavigate }) => {
   } = useMatchRecording();
 
   const [isPitchExpanded, setIsPitchExpanded] = useState(false);
+
+  // Player management per team
+  const { players: homePlayers } = usePlayers({ teamId: homeTeamId || null, autoFetch: !!homeTeamId });
+  const { players: awayPlayers } = usePlayers({ teamId: awayTeamId || null, autoFetch: !!awayTeamId });
+  
+  // Selected player state per team
+  const [selectedHomePlayerId, setSelectedHomePlayerId] = useState<string | null>(null);
+  const [selectedAwayPlayerId, setSelectedAwayPlayerId] = useState<string | null>(null);
+
+  // Get selected player info
+  const selectedHomePlayer = useMemo(() => 
+    homePlayers.find(p => p.id === selectedHomePlayerId), 
+    [homePlayers, selectedHomePlayerId]
+  );
+  const selectedAwayPlayer = useMemo(() => 
+    awayPlayers.find(p => p.id === selectedAwayPlayerId), 
+    [awayPlayers, selectedAwayPlayerId]
+  );
+
+  // Handle player selection
+  const handleSelectHomePlayer = useCallback((player: Player | null) => {
+    setSelectedHomePlayerId(player?.id || null);
+  }, []);
+
+  const handleSelectAwayPlayer = useCallback((player: Player | null) => {
+    setSelectedAwayPlayerId(player?.id || null);
+  }, []);
+
+  // Record event with player info
+  const handleRecordEvent = useCallback((
+    categoryIndex: number, 
+    itemIndex: number, 
+    team: 'home' | 'away'
+  ) => {
+    const selectedPlayer = team === 'home' ? selectedHomePlayer : selectedAwayPlayer;
+    
+    const playerInfo = selectedPlayer ? {
+      playerId: selectedPlayer.id,
+      playerNumber: selectedPlayer.jersey_number,
+      playerName: selectedPlayer.name,
+    } : undefined;
+
+    recordEventForTeam(categoryIndex, itemIndex, team, playerInfo);
+
+    // Optional: Clear player selection after recording
+    // if (team === 'home') setSelectedHomePlayerId(null);
+    // else setSelectedAwayPlayerId(null);
+  }, [recordEventForTeam, selectedHomePlayer, selectedAwayPlayer]);
 
   // Compute per-item event counts for OneClickMetricGrid badges
   const eventCountsByItem = useMemo(() => {
@@ -118,7 +174,10 @@ export const LiveAnalysis: React.FC<LiveAnalysisProps> = ({ onNavigate }) => {
           <SplitTeamMetricPanel
             team="home"
             teamName={state.homeTeam.name}
-            onRecord={(catIdx, itemIdx) => recordEventForTeam(catIdx, itemIdx, 'home')}
+            players={homePlayers}
+            selectedPlayerId={selectedHomePlayerId}
+            onSelectPlayer={handleSelectHomePlayer}
+            onRecord={(catIdx, itemIdx) => handleRecordEvent(catIdx, itemIdx, 'home')}
             eventCounts={eventCountsByItem}
           />
 
@@ -126,7 +185,10 @@ export const LiveAnalysis: React.FC<LiveAnalysisProps> = ({ onNavigate }) => {
           <SplitTeamMetricPanel
             team="away"
             teamName={state.awayTeam.name}
-            onRecord={(catIdx, itemIdx) => recordEventForTeam(catIdx, itemIdx, 'away')}
+            players={awayPlayers}
+            selectedPlayerId={selectedAwayPlayerId}
+            onSelectPlayer={handleSelectAwayPlayer}
+            onRecord={(catIdx, itemIdx) => handleRecordEvent(catIdx, itemIdx, 'away')}
             eventCounts={eventCountsByItem}
           />
         </main>
@@ -137,6 +199,8 @@ export const LiveAnalysis: React.FC<LiveAnalysisProps> = ({ onNavigate }) => {
             teamName: state.events[0].team === 'home' ? state.homeTeam.name : state.awayTeam.name,
             matchTime: state.events[0].matchTime,
             itemName: state.events[0].itemName,
+            playerNumber: state.events[0].playerNumber,
+            playerName: state.events[0].playerName,
           } : undefined}
           onUndo={undoLastEvent}
           isRunning={state.isRunning}
